@@ -1,0 +1,5 @@
+{
+  import = [ 
+  ./krisp-patcher.nix
+  ];
+}
