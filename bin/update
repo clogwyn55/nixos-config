@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+CURRENT_DIR="$(pwd)"
+
+if command -v flatpak > /dev/null; then
+    echo "--- UPDATING FLATPAKS"
+    flatpak update
+    echo ""
+fi
+
+echo "--- UPDATING FLAKE.LOCK"
+cd /etc/nixos || exit
+git add .
+sudo nix flake update
+echo ""
+
+echo "--- UPDATING NIXOS"
+sudo nixos-rebuild switch --flake .#"$(hostnamectl hostname)"
+cd $CURRENT_DIR || exit

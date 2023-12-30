@@ -27,10 +27,10 @@
       bindkey "^L" vi-forward-char
     '';
     shellAliases = {
-      work = "cd /home/aaron/repos/clogwyn55";
+      diff = "diff --color";
+      work = "cd /home/aaron/repos";
       la = "ls -lah";
       vim = "nvim";
-      update = "sudo nix flake update && sudo nixos-rebuild switch";
     };
   };
 }

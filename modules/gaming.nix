@@ -8,7 +8,6 @@
 
 
   services = {
-    ratbagd.enable = true;
     flatpak = {
       enable = true;
       packages = [
@@ -23,8 +22,7 @@
   
   environment.systemPackages = with pkgs; [
     obs-studio
-    piper
-	xivlauncher
+    xivlauncher
     gamemode
     gamescope
   ];

@@ -15,6 +15,7 @@ let
 in
 {
   programs = {
+    blueman.enable = true; #blutooth manager
     hyprland.enable = true;
     hyprland.xwayland.enable = true;
     thunar = {
@@ -30,6 +31,8 @@ in
     gvfs.enable = true; # thunar mount, trash, and other functionalityy
     tumbler.enable = true; # thunar thumbnail support for images
   };
+
+  networkmanager.unmanaged = [ "type:wifi" ]; # I believe this cases errors if not included
   
   security.pam.services.swaylock = {}; #allows swaylock to be unlocked
 

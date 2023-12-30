@@ -12,6 +12,6 @@ config.use_fancy_tab_bar = false
 config.window_decorations = "RESIZE"
 config.font = wezterm.font 'FiraCodeNerdFont'
 config.font_size = 10
-config.window_background_opacity = 0.8
+config.window_background_opacity = 0.9
 
 return config

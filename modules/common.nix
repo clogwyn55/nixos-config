@@ -98,9 +98,11 @@
       git
       neovim
       starship
+      (writeScriptBin "update" (builtins.readFile ../bin/update))
       unzip
       wget
       zsh
     ];
   };
+  
 }

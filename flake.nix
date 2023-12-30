@@ -43,6 +43,7 @@
         x86-laptop-galago = mkComputer
           ./hosts/x86-laptop-galago #machine specific configuration
           [ #system-wide modules
+            nix-flatpak.nixosModules.nix-flatpak
             ./modules/systemdboot.nix
             ./modules/pipewire.nix
             ./modules/laptop.nix
@@ -50,7 +51,6 @@
             ./modules/workstation.nix
             ./modules/hyprland.nix
             ./modules/gtk.nix
-            nix-flatpak.nixosModules.nix-flatpak
           ] 
           [ #user-specific modules
             ./home
@@ -60,6 +60,7 @@
         x86-laptop-thinkpad = mkComputer
           ./hosts/x86-laptop-thinkpad #machine specific configuration
           [ #system-wide modules
+            nix-flatpak.nixosModules.nix-flatpak
             ./modules/grub.nix
             ./modules/pipewire.nix
             ./modules/laptop.nix
@@ -67,7 +68,6 @@
             ./modules/workstation.nix
             ./modules/hyprland.nix
             ./modules/gtk.nix
-            nix-flatpak.nixosModules.nix-flatpak
           ] 
           [ #user-specific modules
             ./home
@@ -92,7 +92,7 @@
             ./home/workstation/kde-apps
           ];
         x86-merkat-bedhtpc = mkComputer
-          ./hosts/smllff-x86-bedhtpc
+          ./hosts/x86-merkat-bedhtpc
           [
             ./modules/systemdboot.nix
             ./modules/pipewire.nix
@@ -104,8 +104,21 @@
             ./home
             ./home/htpc
           ];
-        server-x86-media = mkComputer
-          ./modules/server-x86-media
+        x86-merkat-livhtpc = mkComputer
+          ./hosts/x86-merkat-livhtpc
+          [
+            ./modules/systemdboot.nix
+            ./modules/pipewire.nix
+            ./modules/common.nix
+            ./modules/remotely-managed.nix
+            ./modules/htpc.nix
+          ]
+          [
+            ./home
+            ./home/htpc
+          ];
+        x86-server-media = mkComputer
+          ./modules/x86-server-media
           [
             ./modules/systemdboot.nix
             ./modules/nvidia.nix
@@ -114,6 +127,22 @@
           ]
           [
             ./home
+          ];
+        x86-vrtual-test = mkComputer
+          ./hosts/x86-vrtual-test
+          [
+            ./modules/grub.nix
+            ./modules/amdgpu.nix
+            ./modules/pipewire.nix
+            ./modules/common.nix
+            ./modules/workstation.nix
+            ./modules/kdeplasma.nix
+            ./modules/gaming.nix
+          ]
+          [
+            ./home
+            ./home/workstation
+            ./home/workstation/kde-apps
           ];
       };
     };

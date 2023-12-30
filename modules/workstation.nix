@@ -2,13 +2,9 @@
 {
 
   hardware.opengl = {
-    extraPackages = with pkgs; [ mangohud rocmPackages.clr.icd ];
+    extraPackages = with pkgs; [ mangohud ];
     extraPackages32 = with pkgs; [ mangohud ];
   };
-
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
 
   users.users.aaron.extraGroups = [ "libvirtd" ];
 
@@ -27,7 +23,7 @@
   hardware.bluetooth.powerOnBoot = true;
   
   services = {
-    blueman.enable = true;
+    ratbagd.enable = true; #mouse mapping
     printing = {
       enable = true;
       drivers = [ pkgs.brlaser ];
@@ -57,8 +53,10 @@
       blender-hip
       calibre
       firefox
+      gimp
       godot_4
       jellyfin-media-player
+      piper
       pinentry-gtk2 #for gpg keys
       system76-keyboard-configurator 
       tor-browser
