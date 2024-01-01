@@ -19,7 +19,6 @@
     };
   };
 
-  
   services = {
     fwupd.enable = true; # for upgrading firmware
     ratbagd.enable = true; #mouse mapping
@@ -30,7 +29,7 @@
     pcscd.enable = true; #needed for gpg keys
     flatpak = {
       enable = true;
-      packages = [ "com.discordapp.Discord" ];
+      packages = [ "com.discordapp.Discord" "com.spotify.Client" ];
       update.auto = {
         enable = true;
         onCalendar = "daily";

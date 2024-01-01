@@ -22,7 +22,7 @@
   outputs = inputs @ { self, nixpkgs, home-manager, sops-nix, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
-      mkComputer = configurationNix: extraModules: extraHomeModulesAaron: extraHomeModulesKodi: inputs.nixpkgs.lib.nixosSystem {
+      mkComputer = configurationNix: extraModules: extraHomeModules: inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit system inputs; };
         modules = [
@@ -31,12 +31,7 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.aaron = {
-              imports = extraHomeModulesAaron;
-            };
-            home-manager.users.kodi = {
-              imports = extraHomeModulesKodi;
-            };
+            imports = extraHomeModules;
           }
         ] ++ extraModules; #system modules
       };
@@ -60,8 +55,7 @@
             ./home
             ./home/workstation
             ./home/workstation/hyprland
-          ]
-          [];
+          ];
         x86-laptop-thinkpad = mkComputer
           ./hosts/x86-laptop-thinkpad #machine specific configuration
           [ #system-wide modules
@@ -79,8 +73,7 @@
             ./home
             ./home/workstation
             ./home/workstation/hyprland
-          ]
-          [];
+          ];
         x86-atxtwr-gaming = mkComputer
           ./hosts/x86-atxtwr-gaming
           [
@@ -98,8 +91,7 @@
             ./home
             ./home/workstation
             ./home/workstation/plasma
-          ]
-          [];
+          ];
         x86-merkat-bedhtpc = mkComputer
           ./hosts/x86-merkat-bedhtpc
           [
@@ -113,8 +105,8 @@
           ]
           [
             ./home
-          ]
-          [ ./home/htpc ];
+            ./home/htpc
+          ];
         x86-merkat-livhtpc = mkComputer
           ./hosts/x86-merkat-livhtpc
           [
@@ -128,8 +120,8 @@
           ]
           [
             ./home
-          ]
-          [ ./home/htpc ];
+            ./home/htpc
+          ];
         x86-server-media = mkComputer
           ./modules/x86-server-media
           [
@@ -140,8 +132,7 @@
           ]
           [
             ./home
-          ]
-          [];
+          ];
         x86-vrtual-test = mkComputer
           ./hosts/x86-vrtual-test
           [
@@ -157,8 +148,7 @@
             ./home
             ./home/workstation
             ./home/workstation/plasma
-          ]
-          [];
+          ];
       };
     };
 }

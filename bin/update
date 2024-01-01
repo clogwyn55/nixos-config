@@ -1,19 +1,83 @@
 #!/usr/bin/env sh
 
 CURRENT_DIR="$(pwd)"
+NIX_DIR="/etc/nixos"
+commit=""
+pull="no"
+push="no"
 
-if command -v flatpak > /dev/null; then
-    echo "--- UPDATING FLATPAKS"
-    flatpak update
+while getopts "ls:h" opt; do
+    case $opt in
+        pull|l)
+            echo "Will pull from github before rebuilding."
+            pull="yes"
+            ;;
+        push|s)
+            echo "Will push to github if rebuilding returns no errors."
+            commit="$OPTARG"
+            push="yes"
+            ;;
+        help|h)
+            show_help
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG"
+            show_help
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument."
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+main() {
+    cd $NIX_DIR || exit
+
+    if "$pull" == yes; then
+        echo "--- PULLING FROM GITHUB"
+        git pull
+        echo ""
+    fi
+
+    if command -v flatpak > /dev/null; then
+        echo "--- UPDATING FLATPAKS"
+        flatpak update
+        echo ""
+    fi
+
+    echo "--- UPDATING FLAKE.LOCK"
+    cd /etc/nixos || exit
+    git add .
+    sudo nix flake update
     echo ""
-fi
 
-echo "--- UPDATING FLAKE.LOCK"
-cd /etc/nixos || exit
-git add .
-sudo nix flake update
-echo ""
+    echo "--- UPDATING NIXOS"
+    sudo nixos-rebuild switch --flake .\#"$(hostnamectl hostname)"
+    echo ""
 
-echo "--- UPDATING NIXOS"
-sudo nixos-rebuild switch --flake .#"$(hostnamectl hostname)"
-cd $CURRENT_DIR || exit
+    if [ $? == 0 ] && [ "$push" == "yes" ]; then
+        echo "--- PUSHING TO GITHUB"
+        git commit -m "$commit"
+        git push 
+        echo ""
+    elif [ $? != 0 ] && [ "$push" == "yes" ]; then
+        echo "ERRORS WITH BUILD. WILL NOT PUSH TO GITHUB"
+    fi
+
+    cd $CURRENT_DIR || exit
+}
+
+show_help() {
+    echo "Usage: update [OPTIONS]"
+    echo "This utility fully updates a Nix system, pulling from or pushing to a git repo if specified."
+    echo
+    echo "Options:"
+    echo "  -h, --help   Display this help message."
+    echo "  -l, --pull   Pull from the git repo prior to updating."
+    echo "  -s, --push   Push config changes to the git repo after updating if no errors returned."
+}
+
+main
