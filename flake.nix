@@ -22,7 +22,7 @@
   outputs = inputs @ { self, nixpkgs, home-manager, sops-nix, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
-      mkComputer = configurationNix: extraModules: extraHomeModules: inputs.nixpkgs.lib.nixosSystem {
+      mkComputer = configurationNix: extraModules: extraHomeModulesAaron: extraHomeModulesKodi: inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit system inputs; };
         modules = [
@@ -32,7 +32,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.aaron = {
-              imports = extraHomeModules;
+              imports = extraHomeModulesAaron;
+            };
+            home-manager.users.kodi = {
+              imports = extraHomeModulesKodi;
             };
           }
         ] ++ extraModules; #system modules
@@ -46,6 +49,7 @@
             nix-flatpak.nixosModules.nix-flatpak
             ./modules/systemdboot.nix
             ./modules/pipewire.nix
+            ./modules/bluetooth.nix
             ./modules/laptop.nix
             ./modules/common.nix
             ./modules/workstation.nix
@@ -55,14 +59,16 @@
           [ #user-specific modules
             ./home
             ./home/workstation
-            ./home/workstation/hyprland-apps
-          ]; #modules to be loaded by home-manager
+            ./home/workstation/hyprland
+          ]
+          [];
         x86-laptop-thinkpad = mkComputer
           ./hosts/x86-laptop-thinkpad #machine specific configuration
           [ #system-wide modules
             nix-flatpak.nixosModules.nix-flatpak
             ./modules/grub.nix
             ./modules/pipewire.nix
+            ./modules/bluetooth.nix
             ./modules/laptop.nix
             ./modules/common.nix
             ./modules/workstation.nix
@@ -72,8 +78,9 @@
           [ #user-specific modules
             ./home
             ./home/workstation
-            ./home/workstation/hyprland-apps
-          ]; #modules to be loaded by home-manager
+            ./home/workstation/hyprland
+          ]
+          [];
         x86-atxtwr-gaming = mkComputer
           ./hosts/x86-atxtwr-gaming
           [
@@ -81,6 +88,7 @@
             ./modules/systemdboot.nix
             ./modules/amdgpu.nix
             ./modules/pipewire.nix
+            ./modules/bluetooth.nix
             ./modules/common.nix
             ./modules/workstation.nix
             ./modules/kdeplasma.nix
@@ -89,34 +97,39 @@
           [
             ./home
             ./home/workstation
-            ./home/workstation/kde-apps
-          ];
+            ./home/workstation/plasma
+          ]
+          [];
         x86-merkat-bedhtpc = mkComputer
           ./hosts/x86-merkat-bedhtpc
           [
             ./modules/systemdboot.nix
             ./modules/pipewire.nix
+            ./modules/bluetooth.nix
+            ./modules/intel.nix
             ./modules/common.nix
             ./modules/remotely-managed.nix
             ./modules/htpc.nix
           ]
           [
             ./home
-            ./home/htpc
-          ];
+          ]
+          [ ./home/htpc ];
         x86-merkat-livhtpc = mkComputer
           ./hosts/x86-merkat-livhtpc
           [
             ./modules/systemdboot.nix
             ./modules/pipewire.nix
+            ./modules/bluetooth.nix
+            ./modules/intel.nix
             ./modules/common.nix
             ./modules/remotely-managed.nix
             ./modules/htpc.nix
           ]
           [
             ./home
-            ./home/htpc
-          ];
+          ]
+          [ ./home/htpc ];
         x86-server-media = mkComputer
           ./modules/x86-server-media
           [
@@ -127,7 +140,8 @@
           ]
           [
             ./home
-          ];
+          ]
+          [];
         x86-vrtual-test = mkComputer
           ./hosts/x86-vrtual-test
           [
@@ -142,8 +156,9 @@
           [
             ./home
             ./home/workstation
-            ./home/workstation/kde-apps
-          ];
+            ./home/workstation/plasma
+          ]
+          [];
       };
     };
 }

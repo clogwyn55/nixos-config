@@ -1,6 +1,7 @@
 # nixos-config
 
-Not all modules have been thoroughly tested with each other. Notably the HTPC modules are currently not functional.
+Not all modules have been thoroughly tested with each other. The laptop and gaming modules
+should work fine, the server modules are a WIP.
 
 Apply configs from base folder with
 

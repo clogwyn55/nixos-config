@@ -97,7 +97,9 @@
       freshfetch
       git
       neovim
+      pciutils
       starship
+      tree
       (writeScriptBin "update" (builtins.readFile ../bin/update))
       unzip
       wget

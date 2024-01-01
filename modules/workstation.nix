@@ -19,10 +19,9 @@
     };
   };
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
   
   services = {
+    fwupd.enable = true; # for upgrading firmware
     ratbagd.enable = true; #mouse mapping
     printing = {
       enable = true;

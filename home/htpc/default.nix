@@ -1,7 +1,12 @@
-{ pkgs, ... }:
 {
-  programs.kodi.package = pkgs.kodi.withPackages (exts:
-    [
-    exts.kodi-launches-steam
-    ]);
+  imports = [
+    ./programs/kodi
+    ./programs/gammastep
+  ];
+
+  home = {
+    username = "kodi";
+    homeDirectory = "/home/kodi";
+    stateVersion = "23.11";
+  };
 }

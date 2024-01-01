@@ -1,13 +1,13 @@
 { pkgs, ... }:
 {
   imports = [
-    ./dunst
-    ./hyprland
-    ./rofi
-    ./spotify-tui
-    ./swayidle
-    ./swaylock-effects
-    ./waybar
+    ./programs/dunst
+    ./programs/hyprland
+    ./programs/rofi
+    ./programs/spotify-tui
+    ./programs/swayidle
+    ./programs/swaylock-effects
+    ./programs/waybar
   ];
 
   home.pointerCursor = {

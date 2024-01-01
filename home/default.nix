@@ -1,9 +1,9 @@
 {
 
   imports = [
-    ./git
-    ./nvim
-    ./shell
+    ./programs/git
+    ./programs/nvim
+    ./programs/shell
   ];
 
   home = {

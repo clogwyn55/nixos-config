@@ -1,9 +1,8 @@
-{ pkgs, ... }:
 {
   imports = [
-    ./mangohud
-    ./mpv
-    ./wezterm
+    ./programs/mangohud
+    ./programs/mpv
+    ./programs/wezterm
   ];
 
   dconf.settings = { #connects virt-manager to qemu
