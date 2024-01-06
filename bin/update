@@ -8,11 +8,11 @@ push="no"
 
 while getopts "ls:h" opt; do
     case $opt in
-        pull|l)
+        l)
             echo "Will pull from github before rebuilding."
             pull="yes"
             ;;
-        push|s)
+        s)
             echo "Will push to github if rebuilding returns no errors."
             commit="$OPTARG"
             push="yes"
@@ -36,7 +36,7 @@ done
 main() {
     cd $NIX_DIR || exit
 
-    if "$pull" == yes; then
+    if [ "$pull" == "yes" ]; then
         echo "--- PULLING FROM GITHUB"
         git pull
         echo ""
@@ -44,7 +44,7 @@ main() {
 
     if command -v flatpak > /dev/null; then
         echo "--- UPDATING FLATPAKS"
-        flatpak update
+        flatpak -y update
         echo ""
     fi
 
@@ -61,7 +61,7 @@ main() {
     if [ $? == 0 ] && [ "$push" == "yes" ]; then
         echo "--- PUSHING TO GITHUB"
         git commit -m "$commit"
-        git push 
+        git push git@github.com:clogwyn55/nixos-config.git 
         echo ""
     elif [ $? != 0 ] && [ "$push" == "yes" ]; then
         echo "ERRORS WITH BUILD. WILL NOT PUSH TO GITHUB"

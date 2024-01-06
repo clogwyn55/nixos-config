@@ -1,17 +1,15 @@
 { pkgs, ... }: {
 
-  nixpkgs.config.allowUnfree = true;
-
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
   };
-
 
   services = {
     flatpak = {
       enable = true;
       packages = [
-        "com.valvesoftware.Steam"
+        "com.valvesoftware.Steam" #proprietary
+        "dev.goats.xivlauncher" #official package
       ];
       update.auto = {
         enable = true;
@@ -22,7 +20,6 @@
   
   environment.systemPackages = with pkgs; [
     obs-studio
-    xivlauncher
     gamemode
     gamescope
   ];

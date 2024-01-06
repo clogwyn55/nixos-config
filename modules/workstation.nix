@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.allowUnfree = true;
 
   hardware.opengl = {
     extraPackages = with pkgs; [ mangohud ];
@@ -50,6 +51,7 @@
       betterdiscordctl
       blender-hip
       calibre
+      clamtk
       firefox
       gimp
       godot_4

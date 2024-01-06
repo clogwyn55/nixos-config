@@ -93,6 +93,7 @@
     systemPackages = with pkgs; [
       btop
       cabextract
+      clamav
       curl
       freshfetch
       git
@@ -103,6 +104,7 @@
       (writeScriptBin "update" (builtins.readFile ../bin/update))
       unzip
       wget
+      youtube-dl
       zsh
     ];
   };
